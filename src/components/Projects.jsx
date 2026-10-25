@@ -1,37 +1,32 @@
-const projects = [
-  {
-    title: 'AlgoViz',
-    description:
-      'An interactive algorithm visualizer for sorting and graph traversal algorithms. Supports step-by-step animations and custom inputs to help students grasp algorithmic concepts.',
-    tags: ['React', 'TypeScript', 'CSS Animations'],
-    github: 'https://github.com',
-    demo: 'https://example.com',
-  },
-  {
-    title: 'NoteNest',
-    description:
-      'An AI-powered note-taking app that auto-summarizes lecture recordings and generates flashcards. Adopted by 200+ students at the university for exam preparation.',
-    tags: ['Python', 'FastAPI', 'OpenAI API', 'React'],
-    github: 'https://github.com',
-    demo: 'https://example.com',
-  },
-  {
-    title: 'CampusConnect',
-    description:
-      'A peer-to-peer marketplace for students to buy, sell, and trade textbooks and supplies. Features real-time chat, user ratings, and a recommendation engine.',
-    tags: ['Node.js', 'React', 'PostgreSQL', 'WebSockets'],
-    github: 'https://github.com',
-  },
-]
+import { useState } from 'react'
+import { ALL, filterByTag, getAllTags, projects } from '../data/projects'
+
+const tags = [ALL, ...getAllTags(projects)]
 
 export default function Projects() {
+  const [selectedTag, setSelectedTag] = useState(ALL)
+  const visibleProjects = filterByTag(projects, selectedTag)
+
   return (
     <section id="projects" className="section section-alt">
       <div className="container">
         <p className="section-eyebrow">Projects</p>
         <h2 className="section-heading">Things I've built</h2>
+        <div className="tag-filter" role="group" aria-label="Filter projects by tag">
+          {tags.map((tag) => (
+            <button
+              key={tag}
+              type="button"
+              className={`tag-filter-pill${tag === selectedTag ? ' active' : ''}`}
+              aria-pressed={tag === selectedTag}
+              onClick={() => setSelectedTag(tag)}
+            >
+              {tag}
+            </button>
+          ))}
+        </div>
         <div className="projects-grid">
-          {projects.map((project) => (
+          {visibleProjects.map((project) => (
             <div key={project.title} className="project-card">
               <div className="project-card-banner" />
               <div className="project-card-body">

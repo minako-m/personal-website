@@ -3,10 +3,10 @@
   position: sticky;
   top: 0;
   z-index: 100;
-  background: rgba(255, 255, 255, 0.85);
+  background: rgba(238, 243, 223, 0.9);   /* --matcha-light, slightly see-through for the blur */
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
-  border-bottom: 1px solid var(--border);
+  border-bottom: 1px solid rgba(91, 118, 17, 0.15);   /* faint --matcha */
 }
 
 .navbar-inner {
@@ -83,7 +83,7 @@
 .hero-blob-1 {
   width: 650px;
   height: 650px;
-  background: radial-gradient(circle, rgba(159, 122, 234, 0.13) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(86, 118, 156, 0.13) 0%, transparent 70%);
   top: -160px;
   right: -120px;
 }
@@ -91,38 +91,54 @@
 .hero-blob-2 {
   width: 420px;
   height: 420px;
-  background: radial-gradient(circle, rgba(196, 181, 253, 0.12) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(143, 169, 200, 0.12) 0%, transparent 70%);
   bottom: -100px;
   left: -80px;
 }
 
+/* .hero is a flex row, so without width: 100% the container shrinks to its
+   content and drifts off the navbar's column. */
 .hero-content {
+  width: 100%;
   position: relative;
   z-index: 1;
   padding-top: 32px;
   padding-bottom: 32px;
 }
 
-/* ── WALKING CHARACTER ── */
-.last-name-stage {
+/* ── PIXEL CHARACTER ── */
+/* The character is anchored to the first name, so she always stands just
+   right of it whatever the font size. */
+.first-name-stage {
   display: inline-block;
   position: relative;
 }
 
-.walker-track {
+/* The track's bottom edge is the ground she stands on: the top of the
+   surname's letters. The first name's box ends where the surname's line
+   box starts, and cap height sits ~0.1em below that (Space Grotesk at
+   line-height 0.92). Nudge --character-ground to tune. */
+.character-track {
+  --character-ground: 0.1em;
   position: absolute;
-  top: 100%;
-  left: 0;
-  width: 100%;
-  height: 80px;
+  left: 100%;
+  bottom: calc(-1 * var(--character-ground));
+  height: 1px;
   pointer-events: none;
   overflow: visible;
 }
 
-.walker-char {
+.character-sprite {
   position: absolute;
   bottom: 0;
-  image-rendering: pixelated;
+  user-select: none;
+}
+
+/* Hearts that burst out of her when she's handed a matcha. Comes before her
+   in the DOM, so she's drawn on top and her happy face stays visible. */
+.heart-burst {
+  position: absolute;
+  pointer-events: none;
   user-select: none;
 }
 
@@ -140,7 +156,118 @@
   font-weight: 700;
   letter-spacing: -4px;
   line-height: 0.92;
+}
+
+/* Name on the left, shelves column on the right. Flex keeps them from ever overlapping. */
+.hero-top {
+  display: flex;
+  align-items: stretch;
+  gap: clamp(32px, 5vw, 72px);
   margin-bottom: 96px;
+}
+
+/* ── SHELVES ── */
+.hero-shelves {
+  position: relative;
+  flex: 0 0 clamp(160px, 26vw, 340px);
+}
+
+/* The rack runs from the greeting down past the tagline and links (the
+   empty space to their right), so six shelves have room for matcha. */
+.hero-shelves-rack {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: calc(100% + 220px);
+}
+
+.shelf-slot {
+  position: absolute;
+  height: 22px;
+}
+
+/* shelf.png's two ends (with the brackets) stay fixed; only the plank between them stretches */
+.shelf {
+  position: absolute;
+  inset: 0;
+  border-style: solid;
+  border-width: 0 41px;
+  border-image: url('./assets/shelf.png') 0 105 fill / 0 41px stretch;
+}
+
+/* Matcha standing on the plank. font-size is the height of a typical cup;
+   each icon's height is set in em so their relative sizes are kept. */
+.shelf-items {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: calc(100% - 6px);   /* sit on the plank's top face, not its back edge */
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-evenly;
+  padding: 0 6%;
+  font-size: clamp(28px, 3.6vw, 40px);
+}
+
+.shelf-items img {
+  display: block;
+  user-select: none;
+  cursor: grab;
+  touch-action: none;   /* let touch drags carry the drink instead of scrolling */
+  transition: transform 0.15s ease;
+}
+
+.shelf-items img:hover {
+  transform: translateY(-3px);
+}
+
+/* The copy of a drink being carried to the character */
+.matcha-held {
+  position: fixed;
+  z-index: 1000;
+  pointer-events: none;
+  user-select: none;
+}
+
+.matcha-held.is-drag {
+  transform: scale(1.12) rotate(-6deg);
+  filter: drop-shadow(0 8px 10px rgba(15, 15, 20, 0.18));
+}
+
+.matcha-held.is-return {
+  transition: left 0.25s ease, top 0.25s ease, transform 0.25s ease;
+}
+
+.matcha-held.is-eaten {
+  transform: scale(0.2);
+  opacity: 0;
+  transition: left 0.2s ease-in, top 0.2s ease-in, transform 0.2s ease-in, opacity 0.2s ease-in;
+}
+
+body.matcha-dragging,
+body.matcha-dragging * {
+  cursor: grabbing !important;
+  user-select: none;
+}
+
+/* Phones: no room beside the name, so the shelves go underneath it
+   (Shelves.jsx switches to its shorter phone layout at the same width) */
+@media (max-width: 600px) {
+  .hero-top {
+    flex-direction: column;
+    gap: 28px;
+    margin-bottom: 40px;
+  }
+
+  .hero-shelves {
+    flex: none;
+    height: 210px;
+  }
+
+  .hero-shelves-rack {
+    height: 100%;
+  }
 }
 
 .hero-name-accent {
@@ -171,14 +298,14 @@
   font-weight: 600;
   font-size: 0.9rem;
   transition: all 150ms ease;
-  border: 1.5px solid var(--border);
-  color: var(--text);
+  border: 1.5px solid var(--matcha);
+  color: var(--matcha);
 }
 
 .hero-link:hover {
-  border-color: var(--accent);
-  color: var(--accent);
-  background: var(--accent-light);
+  border-color: var(--matcha-hover);
+  color: var(--matcha-hover);
+  background: var(--matcha-light);
 }
 
 .hero-link.primary {
@@ -231,8 +358,8 @@
   border-radius: 100px;
   font-size: 0.78rem;
   font-weight: 600;
-  background: var(--accent-light);
-  color: var(--accent);
+  background: var(--matcha-light);
+  color: var(--matcha);
   font-family: var(--font-heading);
 }
 
@@ -310,7 +437,7 @@
   content: '–';
   position: absolute;
   left: 0;
-  color: var(--accent);
+  color: var(--matcha);
   font-weight: 700;
 }
 
@@ -319,6 +446,39 @@
 }
 
 /* ── PROJECTS ── */
+.tag-filter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: -24px 0 32px;
+}
+
+.tag-filter-pill {
+  padding: 7px 16px;
+  border-radius: 100px;
+  border: 1.5px solid var(--border);
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-heading);
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 150ms ease;
+}
+
+.tag-filter-pill:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: var(--accent-light);
+}
+
+.tag-filter-pill.active,
+.tag-filter-pill.active:hover {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
 .projects-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -351,7 +511,7 @@
 
 .project-card-banner {
   height: 6px;
-  background: linear-gradient(90deg, var(--accent), #a78bfa);
+  background: linear-gradient(90deg, var(--accent), var(--matcha));
 }
 
 .project-card-body {

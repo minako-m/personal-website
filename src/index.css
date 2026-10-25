@@ -6,12 +6,16 @@
 
 :root {
   --bg: #ffffff;
-  --bg-alt: #FAF8FF;
-  --text: #0F0F14;
+  --bg-alt: #F5F8FC;
+  --text: var(--matcha);   /* main text is matcha green instead of black */
   --text-muted: #71717A;
-  --accent: #9F7AEA;
-  --accent-hover: #8B5CF6;
-  --accent-light: #F0EAFF;
+  --accent: #56769C;
+  --accent-hover: #466489;
+  --accent-light: #E6EDF5;
+  /* Secondary accent for quieter elements, sampled from the matcha icons */
+  --matcha: #5B7611;
+  --matcha-hover: #4A620D;
+  --matcha-light: #EEF3DF;
   --border: #E4E4E7;
   --font-heading: 'Space Grotesk', system-ui, sans-serif;
   --font-body: 'Inter', system-ui, sans-serif;

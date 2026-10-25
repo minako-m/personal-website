@@ -1,19 +1,30 @@
-import WalkingCharacter from './WalkingCharacter'
+import { useRef, useState } from 'react'
+import PixelCharacter from './PixelCharacter'
+import Shelves from './Shelves'
 
 export default function Hero() {
+  // Dropping a matcha on the character bumps `feeds`, which makes her drink and jump
+  const characterRef = useRef(null)
+  const [feeds, setFeeds] = useState(0)
+
   return (
     <section id="home" className="hero">
       <div className="hero-blob-1" />
       <div className="hero-blob-2" />
       <div className="container hero-content">
-        <p className="hero-greeting">Hi there, I'm</p>
-        <h1 className="hero-name">
-          Amira<br />
-          <span className="last-name-stage">
-            <span className="hero-name-accent">Mahmedjan.</span>
-            <WalkingCharacter />
-          </span>
-        </h1>
+        <div className="hero-top">
+          <div>
+            <p className="hero-greeting">Hi there, I'm</p>
+            <h1 className="hero-name">
+              <span className="first-name-stage">
+                Amira
+                <PixelCharacter imgRef={characterRef} feedCount={feeds} />
+              </span><br />
+              <span className="hero-name-accent">Mahmedjan.</span>
+            </h1>
+          </div>
+          <Shelves targetRef={characterRef} onFeed={() => setFeeds(f => f + 1)} />
+        </div>
         <p className="hero-tagline">
           Software Engineer &amp; Stanford CS Systems.
         </p>
