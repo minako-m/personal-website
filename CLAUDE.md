@@ -33,7 +33,8 @@ src/
     Experience.jsx     # work experience cards — edit the `experiences` array
     Projects.jsx       # tag filter pills (All + one per tag, selected tag in state) + project grid
     Education.jsx      # education card with the cheering Stanford character
-    Random.jsx         # "Random" tab: picture frames (shuffled per visit) filled light blue, for characters
+    Random.jsx         # "Random" tab: picture frames hanging on strings (fixed `ARRANGEMENT`), filled light blue, for characters
+    Hometown.jsx       # "My Hometown" page, opened by clicking the flag girl in the pink frame (not in the navbar)
   assets/
     character/     # character frames (idle-*, drink-*, jump-*), one shared 220x308 cell
     heart-burst/   # 5 heart-burst frames

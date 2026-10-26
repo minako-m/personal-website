@@ -1083,19 +1083,111 @@ body.matcha-dragging * {
 }
 
 /* ── RANDOM ── */
-/* Picture frames in a wrapping row, all the same height (each keeps its own
-   width from its aspect ratio) */
+/* Picture frames hanging in one interleaved row (see hangFrames in
+   Random.jsx), all the same height; each keeps its own width from its
+   aspect ratio */
 .frame-gallery {
+  --frame-h: clamp(170px, 19vw, 210px);
   display: flex;
-  flex-wrap: wrap;
   justify-content: center;
+  align-items: flex-start;
+  gap: 30px;   /* twice this between top frames (a lower slot sits in each gap); wide enough for the pink frame in the lower row */
+}
+
+/* A lower frame's slot is zero-width, so its frame hangs centred in the gap
+   between two top frames (overflowing it on both sides) */
+.frame-slot-low {
+  width: 0;
+  display: flex;
+  justify-content: center;
+}
+
+/* Nail, string and frame; swings around the nail */
+.frame-hanger {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 32px 40px;
+  margin-top: var(--nail-top);
+  transform-origin: top center;
+  animation: frame-drop 3.6s both;
+}
+
+.frame-nail {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--matcha);
+  box-shadow: inset -2px -2px 0 rgba(0, 0, 0, 0.25);
+  position: relative;
+  z-index: 1;
+}
+
+.frame-swing {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: -5px;   /* the string starts under the nail */
+  transform-origin: top center;
+}
+
+.frame-hanger:hover .frame-swing { animation: frame-wiggle 0.9s ease-in-out; }
+
+/* a little nudge on hover, dying down */
+@keyframes frame-wiggle {
+  0%, 100% { transform: rotate(0); }
+  20% { transform: rotate(3deg); }
+  45% { transform: rotate(-2.2deg); }
+  70% { transform: rotate(1.2deg); }
+  88% { transform: rotate(-0.5deg); }
+}
+
+.frame-string {
+  width: 2px;
+  height: var(--string);
+  margin-bottom: -14px;    /* tucks behind the frame's top edge */
+  background: color-mix(in srgb, var(--matcha) 55%, transparent);
+}
+
+/* Too narrow for one row: plain wrapping rows, each frame on its own string */
+@media (max-width: 760px) {
+  .frame-gallery {
+    --frame-h: 180px;
+    flex-wrap: wrap;
+    gap: 24px 32px;
+  }
+  .frame-slot-low { width: auto; }
+  .frame-hanger { margin-top: 0; }
+  .frame-string { height: var(--string-narrow); }
+}
+
+/* Falls in from above the screen, lands, then swings like a pendulum: every
+   swing takes the same time and is about 24% smaller than the last, until
+   it comes to rest (0.64s fall + 2.96s of swinging) */
+@keyframes frame-drop {
+  0%     { transform: translateY(-120vh) rotate(0); animation-timing-function: cubic-bezier(0.5, 0, 0.9, 0.5); }
+  17.8%  { transform: translateY(0) rotate(0); animation-timing-function: ease-out; }
+  25.3%  { transform: translateY(0) rotate(5.00deg); animation-timing-function: ease-in-out; }
+  32.7%  { transform: translateY(0) rotate(-3.80deg); animation-timing-function: ease-in-out; }
+  40.2%  { transform: translateY(0) rotate(2.89deg); animation-timing-function: ease-in-out; }
+  47.7%  { transform: translateY(0) rotate(-2.19deg); animation-timing-function: ease-in-out; }
+  55.2%  { transform: translateY(0) rotate(1.67deg); animation-timing-function: ease-in-out; }
+  62.6%  { transform: translateY(0) rotate(-1.27deg); animation-timing-function: ease-in-out; }
+  70.1%  { transform: translateY(0) rotate(0.96deg); animation-timing-function: ease-in-out; }
+  77.6%  { transform: translateY(0) rotate(-0.73deg); animation-timing-function: ease-in-out; }
+  85.1%  { transform: translateY(0) rotate(0.56deg); animation-timing-function: ease-in-out; }
+  92.5%  { transform: translateY(0) rotate(-0.42deg); animation-timing-function: ease-in-out; }
+  100%   { transform: translateY(0) rotate(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .frame-hanger,
+  .frame-hanger:hover .frame-swing { animation: none; }
 }
 
 .picture-frame {
   position: relative;
-  height: clamp(200px, 22vw, 260px);
+  height: var(--frame-h);
 }
 
 .picture-frame-window,
@@ -1117,23 +1209,40 @@ body.matcha-dragging * {
   pointer-events: none;
 }
 
-@media (max-width: 480px) {
-  .picture-frame { height: 180px; }
-}
-
-/* The flag character runs in place at the bottom of the Random tab */
-.random-runner {
+/* The flag girl running in place inside the pink frame: a button that
+   opens the My Hometown page */
+.frame-portal {
+  position: absolute;
+  inset: 0;
   display: flex;
+  align-items: center;
   justify-content: center;
-  margin: 56px 0 -72px;   /* eat most of the section's bottom padding, so she's at the very bottom */
+  border: none;
+  background: none;
+  cursor: pointer;
 }
 
 .flag-character {
-  height: clamp(110px, 12vw, 150px);
+  height: 55%;
   aspect-ratio: 293 / 200;
   user-select: none;
   pointer-events: none;
 }
+
+/* ── HOMETOWN ── */
+.back-link {
+  font-family: var(--font-heading);
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--matcha);
+  background: none;
+  border: none;
+  padding: 0;
+  margin-bottom: 16px;
+  cursor: pointer;
+}
+
+.back-link:hover { text-decoration: underline; }
 
 /* ── FOOTER ── */
 .footer {
