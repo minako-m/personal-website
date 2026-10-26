@@ -153,6 +153,12 @@
   user-select: none;
 }
 
+/* Asleep (at night) she can be clicked to wake her up */
+.character-sprite.is-asleep {
+  pointer-events: auto;
+  cursor: pointer;
+}
+
 /* Hearts that burst out of her when she's handed a matcha. Comes before her
    in the DOM, so she's drawn on top and her happy face stays visible. */
 .heart-burst {
