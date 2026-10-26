@@ -46,7 +46,7 @@ art/               # source sprite sheets the assets above were cropped from (no
 ## Design system
 
 Defined via CSS custom properties in `src/index.css`:
-- **Fonts**: Space Grotesk (headings) + Inter (body) via Google Fonts in `index.html`
+- **Fonts**: Poppins (`--font-display`: headings and subheadings; Epilogue, Montserrat and Clash Display via Fontshare are kept as alternatives), Pilcrow Rounded (`--font-heading`: buttons, tags, labels, via Fontshare; Cabinet Grotesk and Space Grotesk kept as alternatives) + Outfit (`--font-body`; Inter kept as an alternative) via Google Fonts in `index.html`
 - **Accent color**: `--accent: #56769C` (denim, sampled from the character sprite)
 - **Secondary accent**: `--matcha: #5B7611` (matcha green) for quieter elements (outline buttons, tags, list bullets) and as the main text colour (`--text`)
 - **Alternate section bg**: `--bg-alt: #F5F8FC`

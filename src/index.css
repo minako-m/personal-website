@@ -19,8 +19,18 @@
   --nav-bg: rgba(222, 231, 196, 0.92);   /* a couple of shades darker than --bg, slightly see-through */
   --nav-border: rgba(91, 118, 17, 0.2);
   --border: #E4E4E7;
-  --font-heading: 'Space Grotesk', system-ui, sans-serif;
-  --font-body: 'Inter', system-ui, sans-serif;
+  /* Buttons, tags, labels. Other options tried:
+     --font-heading: 'Cabinet Grotesk', system-ui, sans-serif;
+     --font-heading: 'Space Grotesk', system-ui, sans-serif; */
+  --font-heading: 'Pilcrow Rounded', system-ui, sans-serif;
+  /* Body text. Previously: --font-body: 'Inter', system-ui, sans-serif; */
+  --font-body: 'Outfit', system-ui, sans-serif;
+  /* Headings and subheadings. Other options tried:
+     --font-display: 'Clash Display', var(--font-heading);   (also uncomment the DISPLAY FONT SPACING block in App.css)
+     --font-display: 'Montserrat', var(--font-heading);
+     --font-display: 'Epilogue', var(--font-heading);
+     --font-display: var(--font-heading);                    (same as --font-heading) */
+  --font-display: 'Poppins', var(--font-heading);
   --radius: 16px;
   --shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 4px 16px rgba(0, 0, 0, 0.06);
   --shadow-hover: 0 4px 12px rgba(0, 0, 0, 0.08), 0 16px 32px rgba(0, 0, 0, 0.08);
@@ -64,7 +74,7 @@ body {
 }
 
 h1, h2, h3, h4, h5 {
-  font-family: var(--font-heading);
+  font-family: var(--font-display);
   font-weight: 700;
   color: var(--text);
   line-height: 1.1;
