@@ -46,9 +46,18 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Gingham picnic mat on every tab: see-through bands of the theme's accent
+   (matcha, or denim on the denim tabs) running both ways, so the squares
+   where they cross come out darkest */
 body {
+  --gingham-band: color-mix(in srgb, var(--matcha) 9%, transparent);
+  --gingham-size: 56px;
   font-family: var(--font-body);
-  background: var(--bg);
+  background-color: var(--bg);
+  background-image:
+    linear-gradient(90deg, var(--gingham-band) 50%, transparent 50%),
+    linear-gradient(var(--gingham-band) 50%, transparent 50%);
+  background-size: var(--gingham-size) var(--gingham-size);
   color: var(--text);
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
