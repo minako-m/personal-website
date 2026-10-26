@@ -26,7 +26,7 @@
   --shadow-hover: 0 4px 12px rgba(0, 0, 0, 0.08), 0 16px 32px rgba(0, 0, 0, 0.08);
 }
 
-/* Education and Hobbies use denim and blue instead of matcha green: the same
+/* Education and Random use denim and blue instead of matcha green: the same
    tokens, re-pointed (App.jsx sets data-theme on <html> per tab) */
 :root[data-theme="denim"] {
   --bg: #E8EEF6;

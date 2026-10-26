@@ -1082,23 +1082,47 @@ body.matcha-dragging * {
   .course-group-header::after { transition: none; }
 }
 
-/* ── HOBBIES ── */
-.hobbies-grid {
-  display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  gap: 16px;
+/* ── RANDOM ── */
+/* Picture frames in a wrapping row, all the same height (each keeps its own
+   width from its aspect ratio) */
+.frame-gallery {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 32px 40px;
 }
 
-@media (max-width: 900px) {
-  .hobbies-grid { grid-template-columns: repeat(3, 1fr); }
+.picture-frame {
+  position: relative;
+  height: clamp(200px, 22vw, 260px);
+}
+
+.picture-frame-window,
+.picture-frame-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.picture-frame-window {
+  background: #D4E1F1;   /* light blue, same as the coursework dropdowns */
+  mask-size: 100% 100%;
+  -webkit-mask-size: 100% 100%;
+}
+
+.picture-frame-img {
+  user-select: none;
+  pointer-events: none;
 }
 
 @media (max-width: 480px) {
-  .hobbies-grid { grid-template-columns: repeat(2, 1fr); }
+  .picture-frame { height: 180px; }
 }
 
-/* The flag character runs in place at the bottom of the Hobbies tab */
-.hobbies-runner {
+/* The flag character runs in place at the bottom of the Random tab */
+.random-runner {
   display: flex;
   justify-content: center;
   margin: 56px 0 -72px;   /* eat most of the section's bottom padding, so she's at the very bottom */
@@ -1109,39 +1133,6 @@ body.matcha-dragging * {
   aspect-ratio: 293 / 200;
   user-select: none;
   pointer-events: none;
-}
-
-.hobby-card {
-  background: #fff;
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  padding: 28px 16px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 12px;
-  box-shadow: var(--shadow);
-  transition: box-shadow 200ms ease, transform 200ms ease;
-  cursor: default;
-  user-select: none;
-}
-
-.hobby-card:hover {
-  box-shadow: var(--shadow-hover);
-  transform: translateY(-3px);
-}
-
-.hobby-emoji {
-  font-size: 2.2rem;
-  line-height: 1;
-}
-
-.hobby-name {
-  font-family: var(--font-heading);
-  font-size: 0.85rem;
-  font-weight: 600;
-  color: var(--text);
-  text-align: center;
 }
 
 /* ── FOOTER ── */

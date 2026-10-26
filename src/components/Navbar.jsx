@@ -6,7 +6,7 @@ const TABS = [
   { id: 'experience', label: 'Experience' },
   { id: 'projects', label: 'Projects', hidden: true },   // not ready yet: remove `hidden` to show it
   { id: 'education', label: 'Education' },
-  { id: 'hobbies', label: 'Hobbies' },
+  { id: 'random', label: 'Random' },
 ]
 
 export default function Navbar({ activeTab, onTabChange }) {

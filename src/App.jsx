@@ -4,11 +4,11 @@ import Hero from './components/Hero'
 import Experience from './components/Experience'
 import Projects from './components/Projects'
 import Education from './components/Education'
-import Hobbies from './components/Hobbies'
+import Random from './components/Random'
 import './App.css'
 
 // Tabs drawn in the denim palette instead of matcha (see [data-theme] in index.css)
-const DENIM_TABS = ['education', 'hobbies']
+const DENIM_TABS = ['education', 'random']
 
 export default function App() {
   const [activeTab, setActiveTab] = useState('home')
@@ -25,7 +25,7 @@ export default function App() {
         {activeTab === 'experience' && <Experience />}
         {activeTab === 'projects' && <Projects />}
         {activeTab === 'education' && <Education />}
-        {activeTab === 'hobbies' && <Hobbies />}
+        {activeTab === 'random' && <Random />}
       </main>
       <footer className="footer">
         <div className="container">
