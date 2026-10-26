@@ -20,7 +20,7 @@ export default function Hero() {
                 Amira
                 <PixelCharacter imgRef={characterRef} feedCount={feeds} />
               </span><br />
-              <span className="hero-name-accent">Mahmedjan.</span>
+              <span className="hero-name-accent">Mahmedjan</span>
             </h1>
           </div>
           <Shelves targetRef={characterRef} onFeed={() => setFeeds(f => f + 1)} />

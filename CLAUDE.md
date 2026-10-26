@@ -32,7 +32,7 @@ src/
     Shelves.jsx        # shelves of draggable matcha; dropping one on the character feeds her
     Experience.jsx     # work experience cards — edit the `experiences` array
     Projects.jsx       # tag filter pills (All + one per tag, selected tag in state) + project grid
-    Education.jsx      # education card + GPA display
+    Education.jsx      # education card with the cheering Stanford character
     Hobbies.jsx        # emoji hobby grid
   assets/
     character/     # character frames (idle-*, drink-*, jump-*), one shared 220x308 cell

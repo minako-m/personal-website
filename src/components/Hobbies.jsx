@@ -1,3 +1,5 @@
+import FlagCharacter from './FlagCharacter'
+
 const hobbies = [
   { emoji: '🧗', name: 'Rock Climbing' },
   { emoji: '📷', name: 'Photography' },
@@ -20,6 +22,9 @@ export default function Hobbies() {
               <span className="hobby-name">{hobby.name}</span>
             </div>
           ))}
+        </div>
+        <div className="hobbies-runner">
+          <FlagCharacter />
         </div>
       </div>
     </section>

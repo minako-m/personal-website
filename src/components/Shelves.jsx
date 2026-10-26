@@ -1,20 +1,5 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
-
-// Matcha icons cropped from art/matcha_icons.png, numbered in sheet
-// order (left to right, top to bottom). All exported at the same scale.
-const icons = import.meta.glob('../assets/matcha/*.png', {
-  eager: true,
-  import: 'default',
-})
-const matcha = n => icons[`../assets/matcha/matcha-${n}.png`]
-
-// Exported [width, height] in px; a typical cup is 104px tall, which displays at 1em
-const MATCHA_SIZE = [
-  [119, 96], [84, 143], [81, 144], [89, 145], [82, 149], [84, 142], [109, 99],
-  [109, 95], [83, 126], [84, 118], [84, 115], [71, 132], [68, 108], [77, 121],
-  [74, 120], [75, 114], [76, 116], [62, 119], [100, 99],
-]
-const CUP_H = 104
+import { matcha, MATCHA_SIZE, CUP_H } from '../data/matcha'
 
 // Shelves beside the name. Positions are % of the shelf rack, deliberately
 // uneven so they look hand-hung. `top` is where the plank sits; `items` are
@@ -52,7 +37,16 @@ const fitting = (items, shelfPx, fontPx) => {
   return count
 }
 
+// The hint arrow's curve: starts by the text, loops once, ends at the arrowhead
+const ARROW_PATH = 'M96 12 C80 2 62 4 56 16 C50 28 64 34 64 24 C64 12 46 10 34 20 C24 28 18 36 13 44'
+
 const HIT_PAD = 12     // px of slack around the character when dropping
+
+// Until a visitor picks up their first drink, the top-left one bounces as a
+// hint. Remembered per browser; storage can be unavailable, so it's best-effort.
+const TRIED_KEY = 'matcha-tried'
+const readTried = () => { try { return localStorage.getItem(TRIED_KEY) === '1' } catch { return false } }
+const saveTried = () => { try { localStorage.setItem(TRIED_KEY, '1') } catch { /* fine */ } }
 
 const overlaps = (a, b) =>
   a.left < b.right + HIT_PAD && a.right > b.left - HIT_PAD &&
@@ -70,6 +64,7 @@ export default function Shelves({ targetRef, onFeed }) {
   // Fixed for the whole drag: where it was grabbed and where it came from
   const drag = useRef(null)
   const dragging = held?.phase === 'drag'
+  const [tried, setTried] = useState(readTried)
 
   const layout = fit.phone ? phoneShelves : shelves
 
@@ -92,6 +87,7 @@ export default function Shelves({ targetRef, onFeed }) {
   const pickUp = (e, n) => {
     if (e.button !== 0 || held) return
     e.preventDefault()
+    if (!tried) { setTried(true); saveTried() }
     const r = e.currentTarget.getBoundingClientRect()
     drag.current = {
       grab: { x: e.clientX - r.left, y: e.clientY - r.top },
@@ -146,17 +142,39 @@ export default function Shelves({ targetRef, onFeed }) {
 
   return (
     <div className="hero-shelves" aria-hidden="true">
+      {/* Hint above the shelves, with a little dashed arrow looping toward the character */}
+      <div className="shelves-note">
+        <svg className="shelves-note-arrow" viewBox="0 0 100 60" fill="none">
+          <defs>
+            {/* drawn along the same curve; animating its offset uncovers the dashes in order */}
+            <mask id="arrow-draw" maskUnits="userSpaceOnUse">
+              <path className="arrow-draw" d={ARROW_PATH} pathLength="100" stroke="#fff" strokeWidth="6" />
+            </mask>
+          </defs>
+          <path
+            d={ARROW_PATH}
+            mask="url(#arrow-draw)"
+            stroke="currentColor"
+            strokeWidth="2.2"
+            strokeLinecap="round"
+            strokeDasharray="5 5"
+          />
+          <path className="arrow-head" d="M6 54 L9 39 L19 47 Z" fill="currentColor" />
+        </svg>
+        <span>give me some matcha!</span>
+      </div>
       <div className="hero-shelves-rack" ref={rackRef}>
         {layout.map(({ items, ...pos }, i) => fit.counts?.[i] !== 0 && (
           <div key={`${fit.phone}-${i}`} className="shelf-slot" style={pos}>
             <div className="shelf" />
             <div className="shelf-items">
-              {items.slice(0, fit.counts?.[i] ?? items.length).map(n => (
+              {items.slice(0, fit.counts?.[i] ?? items.length).map((n, j) => (
                 <img
                   key={n}
                   src={matcha(n)}
                   alt=""
                   draggable={false}
+                  className={!tried && i === 0 && j === 0 ? 'matcha-hint' : undefined}
                   onPointerDown={e => pickUp(e, n)}
                   style={{ height: `${MATCHA_SIZE[n - 1][1] / CUP_H}em` }}
                 />

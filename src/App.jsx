@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Navbar from './components/Navbar'
 import Hero from './components/Hero'
 import Experience from './components/Experience'
@@ -7,8 +7,15 @@ import Education from './components/Education'
 import Hobbies from './components/Hobbies'
 import './App.css'
 
+// Tabs drawn in the denim palette instead of matcha (see [data-theme] in index.css)
+const DENIM_TABS = ['education', 'hobbies']
+
 export default function App() {
   const [activeTab, setActiveTab] = useState('home')
+
+  useEffect(() => {
+    document.documentElement.dataset.theme = DENIM_TABS.includes(activeTab) ? 'denim' : 'matcha'
+  }, [activeTab])
 
   return (
     <>

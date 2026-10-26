@@ -5,8 +5,8 @@
 }
 
 :root {
-  --bg: #ffffff;
-  --bg-alt: #F5F8FC;
+  --bg: #EEF3DF;       /* light matcha, the whole page */
+  --bg-alt: #EEF3DF;   /* sections that used a tinted bg now match the page */
   --text: var(--matcha);   /* main text is matcha green instead of black */
   --text-muted: #71717A;
   --accent: #56769C;
@@ -16,12 +16,30 @@
   --matcha: #5B7611;
   --matcha-hover: #4A620D;
   --matcha-light: #EEF3DF;
+  --nav-bg: rgba(222, 231, 196, 0.92);   /* a couple of shades darker than --bg, slightly see-through */
+  --nav-border: rgba(91, 118, 17, 0.2);
   --border: #E4E4E7;
   --font-heading: 'Space Grotesk', system-ui, sans-serif;
   --font-body: 'Inter', system-ui, sans-serif;
   --radius: 16px;
   --shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 4px 16px rgba(0, 0, 0, 0.06);
   --shadow-hover: 0 4px 12px rgba(0, 0, 0, 0.08), 0 16px 32px rgba(0, 0, 0, 0.08);
+}
+
+/* Education and Hobbies use denim and blue instead of matcha green: the same
+   tokens, re-pointed (App.jsx sets data-theme on <html> per tab) */
+:root[data-theme="denim"] {
+  --bg: #E8EEF6;
+  --bg-alt: #E8EEF6;
+  --matcha: #3D6494;         /* headings, text, tags, outline buttons */
+  --matcha-hover: #2F5281;
+  --matcha-light: #DCE6F3;
+  --nav-bg: rgba(212, 224, 239, 0.92);
+  --nav-border: rgba(86, 118, 156, 0.25);
+}
+
+body {
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 html {
