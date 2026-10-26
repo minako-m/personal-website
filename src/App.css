@@ -853,7 +853,7 @@ body.matcha-dragging * {
   flex-direction: column;
   align-items: center;
   gap: 10px;
-  align-self: center;
+  align-self: start;    /* pinned to the top, so opening dropdowns (which grow the card) doesn't move her */
   margin-right: 24px;   /* a little in from the card's right edge */
 }
 
@@ -868,6 +868,20 @@ body.matcha-dragging * {
   border: 1.5px solid currentColor;
   cursor: pointer;
   transition: background 150ms ease, color 150ms ease;
+  display: grid;
+}
+
+/* both labels stack in one cell; only the current one shows */
+.buddy-button > span { grid-area: 1 / 1; }
+.buddy-button.is-launch > span:last-child,
+.buddy-button.is-return > span:first-child { visibility: hidden; }
+
+/* as tall as the rocket, whichever character is showing */
+.buddy-stage {
+  height: clamp(220px, 20vw, 270px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 /* Stanford cardinal; and matcha green on purpose, even on the denim tabs */
@@ -931,7 +945,8 @@ body.matcha-dragging * {
   }
 
   .stanford-character { height: 150px; }
-  .rocket-character { height: 210px; }
+  .rocket-character,
+  .buddy-stage { height: 210px; }
 }
 
 .education-degree {
@@ -941,8 +956,8 @@ body.matcha-dragging * {
 }
 
 .education-school {
-  font-size: 1.05rem;
-  color: var(--accent);
+  font-size: 1.4rem;
+  color: #8C1515;   /* Stanford cardinal, same as the launch button */
   font-weight: 600;
   font-family: var(--font-heading);
   margin-bottom: 20px;
@@ -976,6 +991,95 @@ body.matcha-dragging * {
   color: var(--text-muted);
   margin-bottom: 12px;
   font-family: var(--font-heading);
+}
+
+/* Coursework dropdowns, one per group: a blue title row, and a list that
+   slides open by animating its grid row from 0fr to 1fr */
+.course-groups {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.course-group {
+  border: 1px solid #C2D3E8;
+  border-radius: 12px;
+  background: #fff;
+  overflow: hidden;   /* round the blue title row's corners too */
+}
+
+.course-group-header {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 10px 16px;
+  border: none;
+  background: #D4E1F1;   /* light denim, with the page's dark denim text */
+  color: var(--matcha);
+  font-family: var(--font-heading);
+  font-weight: 600;
+  font-size: 0.95rem;
+  text-align: left;
+  cursor: pointer;
+  transition: background 150ms ease;
+}
+
+.course-group-header:hover { background: #C2D3E8; }
+
+/* chevron on the right that flips when open */
+.course-group-header::after {
+  content: '';
+  margin-left: auto;
+  width: 7px;
+  height: 7px;
+  border-right: 2px solid currentColor;
+  border-bottom: 2px solid currentColor;
+  transform: translateY(-2px) rotate(45deg);
+  transition: transform 300ms ease;
+}
+
+.course-group.is-open .course-group-header::after {
+  transform: translateY(2px) rotate(-135deg);
+}
+
+.course-group-body {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 300ms ease;
+}
+
+.course-group.is-open .course-group-body { grid-template-rows: 1fr; }
+
+.course-list {
+  min-height: 0;
+  overflow: hidden;
+  list-style: none;
+  padding: 0 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 0.9rem;
+}
+
+/* vertical padding as margins, so the list collapses all the way to 0 */
+.course-list li:first-child { margin-top: 12px; }
+.course-list li:last-child { margin-bottom: 12px; }
+
+.course-list li {
+  display: grid;
+  grid-template-columns: 6.5em 1fr;
+  gap: 12px;
+}
+
+.course-code {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .course-group-body,
+  .course-group-header::after { transition: none; }
 }
 
 /* ── HOBBIES ── */
