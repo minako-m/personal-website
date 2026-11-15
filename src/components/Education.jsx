@@ -1,6 +1,7 @@
 import { useRef, useState } from 'react'
 import StanfordCharacter from './StanfordCharacter'
 import RocketCharacter from './RocketCharacter'
+import { matcha } from '../data/matcha'
 
 // Coursework, one dropdown per group
 const courseGroups = [
@@ -39,8 +40,17 @@ const courseGroups = [
   },
 ]
 
+// A different matcha beside the degree and each class, fixed (not shuffled
+// per visit): the degree gets the first, then the classes in listed order.
+// All 19 icons, one each.
+const EDU_MATCHA = [19, 4, 11, 2, 15, 8, 17, 5, 13, 1, 9, 16, 6, 12, 3, 18, 10, 14, 7]
+
+// Where each group's classes start in EDU_MATCHA (after the degree's)
+const groupOffsets = courseGroups.reduce(
+  (offsets, group, i) => [...offsets, offsets[i] + group.courses.length], [1])
+
 // One dropdown: the blue title row toggles a list that slides open and shut
-function CourseGroup({ group }) {
+function CourseGroup({ group, matchaOffset }) {
   const [open, setOpen] = useState(false)
   const headerRef = useRef(null)
   const bodyId = `courses-${group.name.toLowerCase()}`
@@ -69,8 +79,9 @@ function CourseGroup({ group }) {
       </button>
       <div id={bodyId} className="course-group-body" inert={!open}>
         <ul className="course-list">
-          {group.courses.map(([code, name]) => (
+          {group.courses.map(([code, name], i) => (
             <li key={code}>
+              <img src={matcha(EDU_MATCHA[matchaOffset + i])} alt="" className="course-matcha" />
               <span className="course-code">{code}</span>
               <span>{name}</span>
             </li>
@@ -113,7 +124,10 @@ export default function Education() {
         <h2 className="section-heading">Where I've studied</h2>
         <div className="education-card">
           <div>
-            <h3 className="education-degree">Bachelor's degree, Computer Science</h3>
+            <div className="education-degree-row">
+              <img src={matcha(EDU_MATCHA[0])} alt="" className="education-degree-matcha" />
+              <h3 className="education-degree">Bachelor's degree, Computer Science</h3>
+            </div>
             <p className="education-school">Stanford University</p>
             <div className="education-details">
               <span className="education-badge">📅 Sep 2023 – Jun 2027</span>
@@ -121,8 +135,8 @@ export default function Education() {
             </div>
             <p className="education-courses-label">Relevant Coursework</p>
             <div className="course-groups">
-              {courseGroups.map((group) => (
-                <CourseGroup key={group.name} group={group} />
+              {courseGroups.map((group, i) => (
+                <CourseGroup key={group.name} group={group} matchaOffset={groupOffsets[i]} />
               ))}
             </div>
           </div>

@@ -966,10 +966,25 @@ body.matcha-dragging * {
   .buddy-stage { height: 210px; }
 }
 
+.education-degree-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.education-degree-matcha {
+  flex: none;
+  width: 36px;
+  height: 40px;
+  object-fit: contain;
+  user-select: none;
+}
+
 .education-degree {
   font-size: 1.6rem;
   letter-spacing: -0.6px;
-  margin-bottom: 8px;
+  margin-bottom: 0;   /* the row around it has the spacing */
 }
 
 .education-school {
@@ -1084,8 +1099,16 @@ body.matcha-dragging * {
 
 .course-list li {
   display: grid;
-  grid-template-columns: 6.5em 1fr;
+  grid-template-columns: 1.4em 6.5em 1fr;
+  align-items: center;
   gap: 12px;
+}
+
+.course-matcha {
+  width: 1.4em;
+  height: 1.5em;
+  object-fit: contain;
+  user-select: none;
 }
 
 .course-code {
