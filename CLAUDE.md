@@ -33,9 +33,10 @@ src/
     Experience.jsx     # work experience cards — edit the `experiences` array
     Projects.jsx       # tag filter pills (All + one per tag, selected tag in state) + project grid
     Education.jsx      # education card with the cheering Stanford character
-    Random.jsx         # "Random" tab: five small denim shelves, each with a looping 3-frame icon; the computer and flag open pages
+    Random.jsx         # "Random" tab: five small denim shelves, each with a looping 3-frame icon; the computer, flag and hands open pages
     Hometown.jsx       # "My Hometown" page (not in the navbar): the hanging picture frames
     CompetitiveProgramming.jsx # butter-yellow page (not in the navbar), opened by the computer on the Random shelves
+    StudentClubs.jsx   # lavender page (not in the navbar), opened by the hands on the Random shelves: club logos on the cork board's polaroids (`CLUBS`, positions in `SLOTS`); clicking one stretches it open with details + links
     FrameGallery.jsx   # picture frames hanging on strings (fixed `ARRANGEMENT`), each holding an Astana photo (`PHOTOS`)
     PhotoViewer.jsx    # full-screen view of a clicked frame photo: prev/next/close, arrow keys + Escape
   assets/
@@ -44,6 +45,7 @@ src/
     matcha/        # matcha-1..19, numbered in sheet order
     Astana_pics/   # hometown photos as JPGs, 1600px on the long side (convert HEICs with sips before adding)
     frames/        # frame-N + window-N (mask of its opening), cropped from art/frames.png
+    clubs/         # board-wide / board-tall .webp (the Student Clubs cork board, tall one on narrow screens) + msu/casa logos, from art/clubs/
     random-icons/  # computer/matcha/flag/sneaker/hands-1..3, cropped from art/random_icons.png
     shelf.png      # stretched with border-image; the bracket ends stay fixed
 art/               # source sprite sheets the assets above were cropped from (not loaded by the site)
@@ -52,7 +54,7 @@ art/               # source sprite sheets the assets above were cropped from (no
 ## Design system
 
 Defined via CSS custom properties in `src/index.css`:
-- **Fonts**: Poppins (`--font-display`: headings and subheadings; Epilogue, Montserrat and Clash Display via Fontshare are kept as alternatives), Pilcrow Rounded (`--font-heading`: buttons, tags, labels, via Fontshare; Cabinet Grotesk and Space Grotesk kept as alternatives) + Outfit (`--font-body`; Inter kept as an alternative) via Google Fonts in `index.html`
+- **Fonts**: Poppins (`--font-display`: headings and subheadings; Epilogue, Montserrat and Clash Display via Fontshare are kept as alternatives), Pilcrow Rounded (`--font-heading`: buttons, tags, labels, via Fontshare; Cabinet Grotesk and Space Grotesk kept as alternatives) + Outfit (`--font-body`; Inter kept as an alternative) + Bradley Hand (`--font-hand`: handwritten names on the clubs' polaroids; a macOS/iOS system font, Caveat from Google Fonts elsewhere) via Google Fonts in `index.html`
 - **Accent color**: `--accent: #56769C` (denim, sampled from the character sprite)
 - **Secondary accent**: `--matcha: #5B7611` (matcha green) for quieter elements (outline buttons, tags, list bullets) and as the main text colour (`--text`)
 - **Alternate section bg**: `--bg-alt: #F5F8FC`

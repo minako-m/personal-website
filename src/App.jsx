@@ -7,10 +7,11 @@ import Education from './components/Education'
 import Random from './components/Random'
 import Hometown from './components/Hometown'
 import CompetitiveProgramming from './components/CompetitiveProgramming'
+import StudentClubs from './components/StudentClubs'
 import './App.css'
 
 // Pages not drawn in the default matcha palette (see [data-theme] in index.css)
-const THEMES = { education: 'denim', random: 'denim', cp: 'butter' }
+const THEMES = { education: 'denim', random: 'denim', cp: 'butter', clubs: 'lavender' }
 
 export default function App() {
   const [activeTab, setActiveTab] = useState('home')
@@ -36,6 +37,7 @@ export default function App() {
         {activeTab === 'random' && <Random onOpen={openPage} />}
         {activeTab === 'hometown' && <Hometown onBack={() => openPage('random')} />}
         {activeTab === 'cp' && <CompetitiveProgramming onBack={() => openPage('random')} />}
+        {activeTab === 'clubs' && <StudentClubs onBack={() => openPage('random')} />}
       </main>
       <footer className="footer">
         <div className="container">

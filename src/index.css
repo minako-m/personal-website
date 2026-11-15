@@ -31,6 +31,9 @@
      --font-display: 'Epilogue', var(--font-heading);
      --font-display: var(--font-heading);                    (same as --font-heading) */
   --font-display: 'Poppins', var(--font-heading);
+  /* Handwriting, for names written on the clubs' polaroids. Bradley Hand
+     comes with macOS/iOS (it isn't a web font); elsewhere Caveat stands in */
+  --font-hand: 'Bradley Hand', 'Caveat', cursive;
   --radius: 32px;
   --shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 4px 16px rgba(0, 0, 0, 0.06);
   --shadow-hover: 0 4px 12px rgba(0, 0, 0, 0.08), 0 16px 32px rgba(0, 0, 0, 0.08);
@@ -58,6 +61,24 @@
   --matcha-light: #F5E6B0;
   --nav-bg: rgba(246, 233, 186, 0.92);
   --nav-border: rgba(122, 90, 16, 0.22);
+}
+
+/* Lavender purple, for the Student Clubs page, matched to the bow and
+   gingham tape on the cork board (#B49CC4): a pale tint of it for the page,
+   a deep shade for text and accents, and the purple itself for the picnic
+   mat's bands so the mat looks like the tape */
+:root[data-theme="lavender"] {
+  --bg: #EEE8F2;
+  --bg-alt: #EEE8F2;
+  --matcha: #6B4F82;
+  --matcha-hover: #58406C;
+  --matcha-light: #E2D7EA;
+  --nav-bg: rgba(226, 215, 234, 0.92);
+  --nav-border: rgba(107, 79, 130, 0.22);
+}
+
+:root[data-theme="lavender"] body {
+  --gingham-band: color-mix(in srgb, #B49CC4 26%, transparent);
 }
 
 body {

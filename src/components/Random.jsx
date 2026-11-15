@@ -16,10 +16,11 @@ const SHELVES = [
   { name: 'matcha', label: 'matcha', cell: [209, 246], frameMs: 450, drop: 36 },
   { name: 'flag', label: 'my hometown', cell: [279, 210], frameMs: 260, drop: 8, opens: 'hometown' },
   { name: 'sneaker', label: 'running', cell: [220, 204], frameMs: 220, drop: 44 },
-  { name: 'hands', label: 'student clubs', cell: [292, 259], frameMs: 420, drop: 16 },
+  { name: 'hands', label: 'student clubs', cell: [292, 259], frameMs: 420, drop: 16, opens: 'clubs' },
 ]
 
-// The computer opens the Competitive Programming page, the flag My Hometown
+// The computer opens the Competitive Programming page, the flag My Hometown,
+// the hands Student Clubs
 export default function Random({ onOpen }) {
   return (
     <section id="random" className="section">
