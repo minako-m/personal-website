@@ -461,7 +461,7 @@ body.matcha-dragging * {
   grid-template-columns: 1fr 1fr;
   vertical-align: baseline;
   padding: var(--pad);
-  border-radius: 0.36em;
+  border-radius: 0.5em;
   background: var(--accent-light);
 }
 
@@ -471,7 +471,7 @@ body.matcha-dragging * {
   bottom: var(--pad);
   left: var(--pad);
   width: calc(50% - var(--pad));
-  border-radius: 0.28em;
+  border-radius: 0.42em;   /* the outer radius minus --pad, so the curves stay parallel */
   background: var(--accent);
   transform: translateX(calc(var(--selected) * 100%));
   transition: transform 0.3s ease;
@@ -531,7 +531,7 @@ body.matcha-dragging * {
 .segmented-option:focus-visible {
   outline: 2px solid var(--accent);
   outline-offset: 3px;
-  border-radius: 0.28em;
+  border-radius: 0.42em;
 }
 
 /* ── TAGS ── */
@@ -1020,7 +1020,7 @@ body.matcha-dragging * {
 
 .course-group {
   border: 1px solid #C2D3E8;
-  border-radius: 12px;
+  border-radius: 18px;
   background: #fff;
   overflow: hidden;   /* round the blue title row's corners too */
 }
