@@ -1,4 +1,6 @@
-// Opened by clicking the flag girl in the pink frame on the Random tab
+import FrameGallery from './FrameGallery'
+
+// Opened by clicking the flag on the Random tab's shelves
 export default function Hometown({ onBack }) {
   return (
     <section id="hometown" className="section">
@@ -7,6 +9,7 @@ export default function Hometown({ onBack }) {
           ← back to Random
         </button>
         <h2 className="section-heading">My Hometown</h2>
+        <FrameGallery />
       </div>
     </section>
   )

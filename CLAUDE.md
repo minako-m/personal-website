@@ -33,13 +33,16 @@ src/
     Experience.jsx     # work experience cards — edit the `experiences` array
     Projects.jsx       # tag filter pills (All + one per tag, selected tag in state) + project grid
     Education.jsx      # education card with the cheering Stanford character
-    Random.jsx         # "Random" tab: picture frames hanging on strings (fixed `ARRANGEMENT`), filled light blue, for characters
-    Hometown.jsx       # "My Hometown" page, opened by clicking the flag girl in the pink frame (not in the navbar)
+    Random.jsx         # "Random" tab: five small denim shelves, each with a looping 3-frame icon; the computer and flag open pages
+    Hometown.jsx       # "My Hometown" page (not in the navbar): the hanging picture frames
+    CompetitiveProgramming.jsx # butter-yellow page (not in the navbar), opened by the computer on the Random shelves
+    FrameGallery.jsx   # picture frames hanging on strings (fixed `ARRANGEMENT`), filled light blue, for characters
   assets/
     character/     # character frames (idle-*, drink-*, jump-*), one shared 220x308 cell
     heart-burst/   # 5 heart-burst frames
     matcha/        # matcha-1..19, numbered in sheet order
     frames/        # frame-N + window-N (mask of its opening), cropped from art/frames.png
+    random-icons/  # computer/matcha/flag/sneaker/hands-1..3, cropped from art/random_icons.png
     shelf.png      # stretched with border-image; the bracket ends stay fixed
 art/               # source sprite sheets the assets above were cropped from (not loaded by the site)
 ```
@@ -55,4 +58,4 @@ Defined via CSS custom properties in `src/index.css`:
 
 ## Updating content
 
-All content lives in plain JS arrays at the top of each component file (except projects, which live in `src/data/projects.js`). Filter pills are generated from project tags automatically; tag matching is case-insensitive. To update your info, edit the arrays in `Experience.jsx`, `src/data/projects.js`, `Education.jsx`, and `Random.jsx`, and update the hardcoded strings in `Hero.jsx` and `Navbar.jsx`.
+All content lives in plain JS arrays at the top of each component file (except projects, which live in `src/data/projects.js`). Filter pills are generated from project tags automatically; tag matching is case-insensitive. To update your info, edit the arrays in `Experience.jsx`, `src/data/projects.js`, `Education.jsx`, `Random.jsx` and `FrameGallery.jsx`, and update the hardcoded strings in `Hero.jsx` and `Navbar.jsx`.

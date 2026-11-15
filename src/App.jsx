@@ -6,22 +6,23 @@ import Projects from './components/Projects'
 import Education from './components/Education'
 import Random from './components/Random'
 import Hometown from './components/Hometown'
+import CompetitiveProgramming from './components/CompetitiveProgramming'
 import './App.css'
 
-// Tabs drawn in the denim palette instead of matcha (see [data-theme] in index.css)
-const DENIM_TABS = ['education', 'random']
+// Pages not drawn in the default matcha palette (see [data-theme] in index.css)
+const THEMES = { education: 'denim', random: 'denim', cp: 'butter' }
 
 export default function App() {
   const [activeTab, setActiveTab] = useState('home')
 
-  // Tab switch from inside a page (the Random tab's frames): starts at the top
+  // Tab switch from inside a page (the Random tab's shelves): starts at the top
   const openPage = (tab) => {
     setActiveTab(tab)
     window.scrollTo(0, 0)
   }
 
   useEffect(() => {
-    document.documentElement.dataset.theme = DENIM_TABS.includes(activeTab) ? 'denim' : 'matcha'
+    document.documentElement.dataset.theme = THEMES[activeTab] ?? 'matcha'
   }, [activeTab])
 
   return (
@@ -32,8 +33,9 @@ export default function App() {
         {activeTab === 'experience' && <Experience />}
         {activeTab === 'projects' && <Projects />}
         {activeTab === 'education' && <Education />}
-        {activeTab === 'random' && <Random onOpenHometown={() => openPage('hometown')} />}
+        {activeTab === 'random' && <Random onOpen={openPage} />}
         {activeTab === 'hometown' && <Hometown onBack={() => openPage('random')} />}
+        {activeTab === 'cp' && <CompetitiveProgramming onBack={() => openPage('random')} />}
       </main>
       <footer className="footer">
         <div className="container">

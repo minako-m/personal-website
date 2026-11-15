@@ -48,6 +48,18 @@
   --nav-border: rgba(86, 118, 156, 0.25);
 }
 
+/* Butter yellow, for the Competitive Programming page: a pale butter page
+   with a deep honey-brown for text and accents (readable on the yellow) */
+:root[data-theme="butter"] {
+  --bg: #FBF3D5;
+  --bg-alt: #FBF3D5;
+  --matcha: #7A5A10;
+  --matcha-hover: #634808;
+  --matcha-light: #F5E6B0;
+  --nav-bg: rgba(246, 233, 186, 0.92);
+  --nav-border: rgba(122, 90, 16, 0.22);
+}
+
 body {
   transition: background-color 0.3s ease, color 0.3s ease;
 }
