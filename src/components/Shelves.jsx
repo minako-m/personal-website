@@ -38,7 +38,52 @@ const fitting = (items, shelfPx, fontPx) => {
 }
 
 // The hint arrow's curve: starts by the text, loops once, ends at the arrowhead
-const ARROW_PATH = 'M96 12 C80 2 62 4 56 16 C50 28 64 34 64 24 C64 12 46 10 34 20 C24 28 18 36 13 44'
+const ARROW = {
+  viewBox: '0 0 100 60',
+  path: 'M96 12 C80 2 62 4 56 16 C50 28 64 34 64 24 C64 12 46 10 34 20 C24 28 18 36 13 44',
+  head: 'M6 54 L9 39 L19 47 Z',
+}
+
+// On phones the hint sits under the surname: this one leaves the text's
+// right end, climbs past the end of the surname with a little loop, and
+// sweeps back left over it to the character. Stretched to fit (App.css
+// sizes it), so its numbers are only proportions, and its line is sized in
+// px (`stretch`) to match the bigger desktop arrow.
+const PHONE_ARROW = {
+  viewBox: '0 0 132 112',
+  path: 'M118 106 C119 98 120 92 120 86 C120 74 117 66 112 66 C107 66 104 70 104 74 C104 79 107 82 112 82 C118 82 128 78 128 68 C128 40 112 15 24 12',
+  head: 'M12 12 L25 5.5 L25 18.5 Z',
+  stretch: true,
+}
+
+// The dashed arrow, drawing itself in (see .arrow-draw in App.css)
+function HintArrow({ arrow, className, maskId }) {
+  return (
+    <svg
+      className={className}
+      viewBox={arrow.viewBox}
+      preserveAspectRatio={arrow.stretch ? 'none' : undefined}
+      fill="none"
+    >
+      <defs>
+        {/* drawn along the same curve; animating its offset uncovers the dashes in order */}
+        <mask id={maskId} maskUnits="userSpaceOnUse">
+          <path className="arrow-draw" d={arrow.path} pathLength="100" stroke="#fff" strokeWidth="10" />
+        </mask>
+      </defs>
+      <path
+        d={arrow.path}
+        mask={`url(#${maskId})`}
+        stroke="currentColor"
+        strokeLinecap="round"
+        {...(arrow.stretch
+          ? { strokeWidth: 3, strokeDasharray: '5 4.5', vectorEffect: 'non-scaling-stroke' }
+          : { strokeWidth: 2.2, strokeDasharray: '5 5' })}
+      />
+      <path className="arrow-head" d={arrow.head} fill="currentColor" />
+    </svg>
+  )
+}
 
 const HIT_PAD = 12     // px of slack around the character when dropping
 
@@ -144,23 +189,8 @@ export default function Shelves({ targetRef, onFeed }) {
     <div className="hero-shelves" aria-hidden="true">
       {/* Hint above the shelves, with a little dashed arrow looping toward the character */}
       <div className="shelves-note">
-        <svg className="shelves-note-arrow" viewBox="0 0 100 60" fill="none">
-          <defs>
-            {/* drawn along the same curve; animating its offset uncovers the dashes in order */}
-            <mask id="arrow-draw" maskUnits="userSpaceOnUse">
-              <path className="arrow-draw" d={ARROW_PATH} pathLength="100" stroke="#fff" strokeWidth="6" />
-            </mask>
-          </defs>
-          <path
-            d={ARROW_PATH}
-            mask="url(#arrow-draw)"
-            stroke="currentColor"
-            strokeWidth="2.2"
-            strokeLinecap="round"
-            strokeDasharray="5 5"
-          />
-          <path className="arrow-head" d="M6 54 L9 39 L19 47 Z" fill="currentColor" />
-        </svg>
+        <HintArrow arrow={ARROW} className="shelves-note-arrow" maskId="arrow-draw" />
+        <HintArrow arrow={PHONE_ARROW} className="shelves-note-arrow-phone" maskId="arrow-draw-phone" />
         <span>give me some matcha!</span>
       </div>
       <div className="hero-shelves-rack" ref={rackRef}>

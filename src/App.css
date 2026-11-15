@@ -208,8 +208,8 @@
   right: 9%;
   margin-bottom: 46px;   /* high enough that the big arrow clears the shelves */
   color: var(--matcha);
-  font-family: var(--font-heading);
-  font-size: 0.8rem;
+  font-family: var(--font-body);
+  font-size: 1.2rem;
   font-weight: 600;
   white-space: nowrap;
   pointer-events: none;
@@ -226,6 +226,8 @@
 @media (min-width: 601px) and (max-width: 900px) {
   .shelves-note-arrow { width: 118px; height: 70px; top: -8px; }
 }
+
+.shelves-note-arrow-phone { display: none; }   /* phones only, below */
 
 /* On page load the arrow draws itself dash by dash (about 15 dashes, so 15
    steps), then the arrowhead pops in */
@@ -349,9 +351,24 @@ body.matcha-dragging * {
     margin-bottom: 40px;
   }
 
-  /* no arrow on phones: the character is above the hint and it gets cramped */
+  /* Sized so the surname (~5.7em wide) fits with a strip to its right for
+     the hint's arrow to loop up through (she scales with it, in em) */
+  .hero-name { font-size: min(4rem, calc((100vw - 80px) / 5.75)); }
+
   .shelves-note { margin-bottom: 16px; }
   .shelves-note-arrow { display: none; }
+
+  /* From the text's right end up to the character: its left edge sits just
+     right of her and its top level with her middle. She and the surname
+     scale with the viewport (above) but the text doesn't, hence the vw. */
+  .shelves-note-arrow-phone {
+    display: block;
+    position: absolute;
+    right: -26px;
+    top: calc(-4px - 24.5vw);
+    width: calc(64.5px + 18vw);
+    height: calc(20px + 24.5vw);
+  }
 
   .hero-shelves {
     flex: none;
