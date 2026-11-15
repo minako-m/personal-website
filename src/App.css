@@ -1127,11 +1127,16 @@ body.matcha-dragging * {
    Random.jsx), all the same height; each keeps its own width from its
    aspect ratio */
 .frame-gallery {
-  --frame-h: clamp(170px, 19vw, 210px);
+  /* The row is about 4.2 frame-heights wide (the four top frames plus six
+     gaps), so this keeps it inside the container at every desktop width */
+  --frame-h: min(240px, calc((100vw - 120px) * 0.235));
   display: flex;
   justify-content: center;
   align-items: flex-start;
-  gap: 30px;   /* twice this between top frames (a lower slot sits in each gap); wide enough for the pink frame in the lower row */
+  /* twice this between top frames (a lower slot sits in each gap). It scales
+     with the frames: the pink frame (5) and its lower neighbour (6) only clear
+     each other while 2 gaps > 0.245 frame-heights */
+  gap: calc(var(--frame-h) * 0.14);
 }
 
 /* A lower frame's slot is zero-width, so its frame hangs centred in the gap
@@ -1193,7 +1198,7 @@ body.matcha-dragging * {
    own (shortened) string, so two or three fit per row on a phone */
 @media (max-width: 760px) {
   .frame-gallery {
-    --frame-h: 130px;
+    --frame-h: 145px;
     flex-wrap: wrap;
     gap: 16px 20px;
   }
@@ -1203,7 +1208,7 @@ body.matcha-dragging * {
 }
 
 @media (max-width: 480px) {
-  .frame-gallery { --frame-h: 105px; gap: 12px 14px; }
+  .frame-gallery { --frame-h: 115px; gap: 12px 14px; }
   .frame-string { height: max(22px, calc(var(--string-narrow) * 0.45)); }   /* at least enough to show past the frame edge */
 }
 
@@ -1248,6 +1253,24 @@ body.matcha-dragging * {
   background: #D4E1F1;   /* light blue, same as the coursework dropdowns */
   mask-size: 100% 100%;
   -webkit-mask-size: 100% 100%;
+}
+
+.picture-frame-photo-btn {
+  display: block;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: zoom-in;
+}
+
+.picture-frame-photo {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  user-select: none;
 }
 
 .picture-frame-img {
@@ -1488,6 +1511,99 @@ body.matcha-dragging * {
 }
 
 .back-link:hover { text-decoration: underline; }
+
+.hometown-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  max-width: 520px;
+  margin: -24px 0 40px;
+  padding: 16px 24px;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  font-size: 1.05rem;
+  line-height: 1.5;
+}
+
+.hometown-pin { font-size: 1.5rem; flex: none; }
+
+/* Full-screen photo viewer (opened from a hometown frame) */
+.photo-viewer {
+  position: fixed;
+  inset: 0;
+  z-index: 1100;   /* above the navbar and everything else */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 72px 88px;
+  background: rgba(222, 231, 196, 0.95);   /* soft matcha, like the navbar */
+  /* always matcha green, whatever the page's theme */
+  --matcha: #5B7611;
+  --matcha-light: #EEF3DF;
+  animation: photo-viewer-in 0.2s ease-out;
+}
+
+.photo-viewer-img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  border: 6px solid #fff;
+  border-radius: 12px;
+  box-shadow: 0 12px 40px rgba(91, 118, 17, 0.25);
+}
+
+.photo-viewer-btn {
+  position: absolute;
+  display: grid;
+  place-items: center;
+  width: 52px;
+  height: 52px;
+  border: 2px solid color-mix(in srgb, var(--matcha) 35%, transparent);
+  border-radius: 50%;
+  background: #fff;
+  color: var(--matcha);
+  font-family: var(--font-heading);
+  font-size: 1.9rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: background 0.15s, transform 0.15s;
+}
+
+.photo-viewer-btn:hover { background: var(--matcha-light); transform: scale(1.06); }
+.photo-viewer-btn:focus-visible { outline: 3px solid var(--matcha); outline-offset: 3px; }
+
+.photo-viewer-close { top: 16px; right: 16px; font-size: 1.2rem; }
+.photo-viewer-prev { left: 20px; top: 50%; translate: 0 -50%; }
+.photo-viewer-next { right: 20px; top: 50%; translate: 0 -50%; }
+
+.photo-viewer-count {
+  position: absolute;
+  bottom: 22px;
+  left: 50%;
+  translate: -50% 0;
+  font-family: var(--font-heading);
+  font-weight: 600;
+  color: var(--matcha);
+}
+
+@keyframes photo-viewer-in {
+  from { opacity: 0; }
+}
+
+@media (max-width: 600px) {
+  .photo-viewer { padding: 72px 16px 88px; }
+  /* arrows move under the photo, either side of the counter */
+  .photo-viewer-prev,
+  .photo-viewer-next { top: auto; bottom: 16px; translate: none; width: 44px; height: 44px; }
+  .photo-viewer-prev { left: 16px; }
+  .photo-viewer-next { right: 16px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .photo-viewer { animation: none; }
+}
 
 /* ── FOOTER ── */
 .footer {

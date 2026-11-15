@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import PhotoViewer from './PhotoViewer'
 
 // Frames cropped from art/frames.png, numbered in sheet order. Each frame-N
 // has a window-N mask of its opening (alpha only), a little bigger than the
@@ -39,6 +40,23 @@ const ARRANGEMENT = [
   { id: 7, string: 34, narrow: 110 },
 ]
 
+// Astana photos (JPGs, 1600px on the long side) by frame id. Landscape shots
+// go in the wide frames (5, 7) and the squarest one (4); a frame without a
+// photo stays light blue.
+const photos = import.meta.glob('../assets/Astana_pics/*.jpg', {
+  eager: true,
+  import: 'default',
+})
+const PHOTOS = {
+  1: 'IMG_3231',
+  3: 'IMG_3288',
+  4: 'IMG_3264',
+  5: 'IMG_4124',
+  7: 'IMG_3792',
+  2: 'IMG_3315',
+  6: 'IMG_3388',
+}
+
 const LONGEST_TOP = Math.max(...ARRANGEMENT.filter(a => !a.low).map(a => a.string))
 
 // Each frame with its nail position and string length as CSS (a lower
@@ -51,7 +69,11 @@ const HUNG = ARRANGEMENT.map(a => ({
     ? `calc(var(--frame-h) + ${LONGEST_TOP + a.gap - a.nailTop}px)`
     : `${a.string}px`,
   stringNarrow: a.narrow,
+  photo: PHOTOS[a.id] && photos[`../assets/Astana_pics/${PHOTOS[a.id]}.jpg`],
 }))
+
+// The photos in the order they hang, left to right, for the viewer
+const GALLERY_PHOTOS = HUNG.map(h => h.photo).filter(Boolean)
 
 // One picture frame hanging from a nail on a string: the light-blue opening
 // (clipped to the frame's window mask, so anything put inside it is too),
@@ -91,19 +113,40 @@ function PictureFrame({ hung, delay, children }) {
   )
 }
 
-// The wall of hanging picture frames (on the My Hometown page)
+// The wall of hanging picture frames (on the My Hometown page). Clicking a
+// photo opens it whole in the viewer.
 export default function FrameGallery() {
+  const [open, setOpen] = useState(null)   // index into GALLERY_PHOTOS
   return (
     <div className="frame-gallery">
       {HUNG.map((hung, i) => {
         const frame = (
-          <PictureFrame key={hung.frame.id} hung={hung} delay={i * 140} />
+          <PictureFrame key={hung.frame.id} hung={hung} delay={i * 140}>
+            {hung.photo && (
+              <button
+                type="button"
+                className="picture-frame-photo-btn"
+                aria-label="View photo of Astana"
+                onClick={() => setOpen(GALLERY_PHOTOS.indexOf(hung.photo))}
+              >
+                <img src={hung.photo} alt="Astana" draggable={false} className="picture-frame-photo" />
+              </button>
+            )}
+          </PictureFrame>
         )
         // a lower frame takes no width: it hangs centred in the gap
         return hung.low
           ? <div key={hung.frame.id} className="frame-slot-low">{frame}</div>
           : frame
       })}
+      {open !== null && (
+        <PhotoViewer
+          photos={GALLERY_PHOTOS}
+          index={open}
+          onChange={setOpen}
+          onClose={() => setOpen(null)}
+        />
+      )}
     </div>
   )
 }

@@ -36,11 +36,13 @@ src/
     Random.jsx         # "Random" tab: five small denim shelves, each with a looping 3-frame icon; the computer and flag open pages
     Hometown.jsx       # "My Hometown" page (not in the navbar): the hanging picture frames
     CompetitiveProgramming.jsx # butter-yellow page (not in the navbar), opened by the computer on the Random shelves
-    FrameGallery.jsx   # picture frames hanging on strings (fixed `ARRANGEMENT`), filled light blue, for characters
+    FrameGallery.jsx   # picture frames hanging on strings (fixed `ARRANGEMENT`), each holding an Astana photo (`PHOTOS`)
+    PhotoViewer.jsx    # full-screen view of a clicked frame photo: prev/next/close, arrow keys + Escape
   assets/
     character/     # character frames (idle-*, drink-*, jump-*), one shared 220x308 cell
     heart-burst/   # 5 heart-burst frames
     matcha/        # matcha-1..19, numbered in sheet order
+    Astana_pics/   # hometown photos as JPGs, 1600px on the long side (convert HEICs with sips before adding)
     frames/        # frame-N + window-N (mask of its opening), cropped from art/frames.png
     random-icons/  # computer/matcha/flag/sneaker/hands-1..3, cropped from art/random_icons.png
     shelf.png      # stretched with border-image; the bracket ends stay fixed

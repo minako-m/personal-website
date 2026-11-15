@@ -9,6 +9,13 @@ export default function Hometown({ onBack }) {
           ← back to Random
         </button>
         <h2 className="section-heading">My Hometown</h2>
+        <div className="hometown-card">
+          <span className="hometown-pin" aria-hidden="true">📍</span>
+          <p>
+            I&rsquo;m from <strong>Astana, Kazakhstan</strong> &mdash; the best city
+            on earth, with the best sunsets.
+          </p>
+        </div>
         <FrameGallery />
       </div>
     </section>
